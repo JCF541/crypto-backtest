@@ -1,6 +1,3 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 import unittest
 import pandas as pd
 from backtest import portfolio_backtest
@@ -9,7 +6,6 @@ from strategy import macd_strategy
 class TestBacktest(unittest.TestCase):
 
     def setUp(self):
-        # Create sample data for two assets
         self.data_btc = pd.DataFrame({
             'timestamp': pd.date_range('2023-01-01', periods=5, freq='D'),
             'open': [100, 102, 104, 106, 108],
@@ -34,12 +30,9 @@ class TestBacktest(unittest.TestCase):
         }
 
     def test_portfolio_backtest(self):
-        """
-        Test portfolio backtesting with two assets.
-        """
         final_balance, portfolio_log = portfolio_backtest(
             self.data_dict,
-            macd_strategy,
+            strategy_function=macd_strategy,
             initial_balance=1000,
             trading_fee=0.001,
             position_size=0.5

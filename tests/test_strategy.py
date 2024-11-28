@@ -1,5 +1,5 @@
 import pytest
-from src.strategy import *
+from strategy import *
 import pandas as pd
 
 def test_generate_signals():

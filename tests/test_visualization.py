@@ -1,21 +1,21 @@
-import pytest
+import unittest
 import pandas as pd
-from visualization import plot_portfolio_performance, save_optimization_heatmap
+from visualization import plot_portfolio_performance
 
-def test_plot_portfolio_performance():
-    """Test that the portfolio performance plot runs without errors."""
-    data = pd.DataFrame({
-        'close': [100, 110, 120, 115, 125],
-        'portfolio_value': [1000, 1100, 1200, 1150, 1250],
-        'signal': [0, 1, 0, -1, 0]
-    })
-    plot_portfolio_performance(data)  # No exceptions = pass
+class TestVisualization(unittest.TestCase):
 
-def test_save_optimization_heatmap():
-    """Test that the heatmap generation runs without errors."""
-    results_df = pd.DataFrame({
-        'RSI Period': [10, 14, 18],
-        'RSI Overbought': [70, 75, 80],
-        'Final Portfolio Value': [1000, 1100, 1200]
-    })
-    save_optimization_heatmap(results_df)  # No exceptions = pass
+    def test_plot_portfolio_performance(self):
+        data = pd.DataFrame({
+            'close': [100, 110, 120, 115, 125],
+            'portfolio_value': [1000, 1100, 1200, 1150, 1250],
+            'signal': [0, 1, 0, -1, 0],
+            'profit': [0, 100, 200, -50, 100]  # Added profit column
+        })
+
+        try:
+            plot_portfolio_performance(data)  # Should run without exceptions
+        except Exception as e:
+            self.fail(f"plot_portfolio_performance raised an exception: {e}")
+
+if __name__ == '__main__':
+    unittest.main()

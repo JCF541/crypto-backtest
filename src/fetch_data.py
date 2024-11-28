@@ -25,21 +25,16 @@ def fetch_ohlcv(symbol, interval, start_str, end_str=None):
     data = data.astype(float)
     return data
 
-def fetch_multiple_assets(pairs, interval, start_str, end_str=None, save_path='data/'):
-    """
-    Fetch historical OHLCV data for multiple assets in parallel.
-    """
-    if not os.path.exists(save_path):
-        os.makedirs(save_path)
+def fetch_multiple_assets(pairs, interval, start_str, end_str=None):
+    results = {}
 
-    def fetch_and_save(pair):
+    def fetch(pair):
         try:
-            data = fetch_ohlcv(pair, interval, start_str, end_str)
-            file_path = os.path.join(save_path, f"{pair}_{interval}.csv")
-            data.to_csv(file_path)
-            print(f"Data for {pair} saved to {file_path}")
+            results[pair] = fetch_ohlcv(pair, interval, start_str, end_str)
         except Exception as e:
             print(f"Error fetching data for {pair}: {e}")
 
     with ThreadPoolExecutor() as executor:
-        executor.map(fetch_and_save, pairs)
+        executor.map(fetch, pairs)
+
+    return results
