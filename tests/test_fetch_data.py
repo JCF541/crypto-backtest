@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../s
 import unittest
 from fetch_data import fetch_ohlcv, fetch_multiple_assets
 from binance.exceptions import BinanceAPIException
+import pandas as pd  # Add this import
 
 class TestFetchData(unittest.TestCase):
 

@@ -4,6 +4,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../s
 
 import unittest
 from strategy import macd_strategy
+import pandas as pd  # Add this import
 
 def test_generate_signals():
     """Test trading signal generation."""

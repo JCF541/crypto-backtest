@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../s
 import unittest
 from backtest import portfolio_backtest
 from strategy import macd_strategy
-
+import pandas as pd  # Add this import
 class TestBacktest(unittest.TestCase):
 
     def setUp(self):

@@ -4,6 +4,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../s
 
 import unittest
 from visualization import plot_portfolio_performance
+import pandas as pd  # Add this import
 
 class TestVisualization(unittest.TestCase):
 

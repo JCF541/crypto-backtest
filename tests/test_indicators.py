@@ -4,6 +4,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../s
 
 import unittest
 from indicators import calculate_ema, calculate_rsi, calculate_atr
+import pandas as pd  # Add this imports
 
 def test_calculate_ema():
     """Test the Exponential Moving Average calculation."""
