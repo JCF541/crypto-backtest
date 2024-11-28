@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from src.indicators import *
+from indicators import *
 
 def test_calculate_ema():
     """Test the Exponential Moving Average calculation."""

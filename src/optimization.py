@@ -1,6 +1,6 @@
 import pandas as pd
-from src.strategy import generate_signals
-from src.backtest import backtest_strategy
+from strategy import generate_signals
+from backtest import backtest_strategy
 from itertools import product
 
 

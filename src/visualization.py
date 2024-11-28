@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
 
 def visualize_optimization_results(results_df):
     """
@@ -18,35 +19,17 @@ def visualize_optimization_results(results_df):
     plt.yticks(ticks=range(len(pivot.index)), labels=pivot.index)
     plt.show()
 
-def plot_portfolio_performance(data, save_to_file=None):
+def plot_portfolio_performance(portfolio_log):
     """
-    Plot portfolio value over time with trade signals.
-
-    :param data: DataFrame with 'portfolio_value' and 'close' columns.
-    :param save_to_file: File path to save the plot (optional).
+    Plot the performance of the portfolio over time.
     """
-    plt.figure(figsize=(14, 7))
-    plt.plot(data.index, data['portfolio_value'], label='Portfolio Value', color='blue')
-    plt.plot(data.index, data['close'], label='Price', color='gray', alpha=0.5)
-    
-    # Plot buy signals
-    buy_signals = data[data['signal'] == 1]
-    plt.scatter(buy_signals.index, buy_signals['close'], label='Buy Signal', marker='^', color='green')
-    
-    # Plot sell signals
-    sell_signals = data[data['signal'] == -1]
-    plt.scatter(sell_signals.index, sell_signals['close'], label='Sell Signal', marker='v', color='red')
-    
-    plt.title("Portfolio Performance")
-    plt.xlabel("Time")
-    plt.ylabel("Value")
-    plt.legend()
-    plt.grid()
-
-    if save_to_file:
-        plt.savefig(save_to_file)
-        print(f"Portfolio performance plot saved to {save_to_file}")
-
+    portfolio_log['cumulative_profit'] = portfolio_log['profit'].cumsum()
+    plt.figure(figsize=(10, 6))
+    plt.plot(portfolio_log['pair'], portfolio_log['cumulative_profit'], marker='o')
+    plt.title('Portfolio Cumulative Profit Over Time')
+    plt.xlabel('Asset Pair')
+    plt.ylabel('Cumulative Profit')
+    plt.grid(True)
     plt.show()
 
 
@@ -97,3 +80,20 @@ def generate_report(data, results_df, portfolio_plot_path, heatmap_path, report_
         f.write(best_params.to_string())
     
     print(f"Report saved to {report_path}")
+
+def plot_correlation_heatmap(pairs, interval, start_str, end_str):
+    """
+    Plot a heatmap of asset correlations.
+    """
+    data_dict = {}
+    for pair in pairs:
+        data = pd.read_csv(f"data/{pair}_{interval}.csv", index_col='timestamp', parse_dates=True)
+        data_dict[pair] = data['close']
+
+    df = pd.DataFrame(data_dict)
+    correlation_matrix = df.corr()
+
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+    plt.title('Asset Correlation Heatmap')
+    plt.show()

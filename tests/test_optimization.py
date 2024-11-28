@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from src.optimization import optimize_parameters, get_best_parameters
+from optimization import optimize_parameters, get_best_parameters
 
 def test_optimize_parameters():
     """Test optimization with a simple range of parameters."""

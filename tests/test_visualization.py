@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from src.visualization import plot_portfolio_performance, save_optimization_heatmap
+from visualization import plot_portfolio_performance, save_optimization_heatmap
 
 def test_plot_portfolio_performance():
     """Test that the portfolio performance plot runs without errors."""

@@ -1,5 +1,5 @@
 import pandas as pd
-from src.indicators import calculate_ema, calculate_rsi, calculate_macd, calculate_bollinger_bands, calculate_atr
+from indicators import calculate_ema, calculate_rsi, calculate_macd, calculate_bollinger_bands, calculate_atr
 
 def generate_signals(data, short_ema_period=12, long_ema_period=26, rsi_period=14, rsi_overbought=70, rsi_oversold=30):
     """
