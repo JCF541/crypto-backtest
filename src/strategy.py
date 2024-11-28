@@ -1,5 +1,5 @@
 import pandas as pd
-from src.indicators import calculate_ema, calculate_rsi
+from src.indicators import calculate_ema, calculate_rsi, calculate_macd, calculate_bollinger_bands, calculate_atr
 
 def generate_signals(data, short_ema_period=12, long_ema_period=26, rsi_period=14, rsi_overbought=70, rsi_oversold=30):
     """
@@ -27,4 +27,48 @@ def generate_signals(data, short_ema_period=12, long_ema_period=26, rsi_period=1
     # Sell signal: Short EMA crosses below Long EMA, RSI > Overbought
     data.loc[(data['short_ema'] < data['long_ema']) & (data['rsi'] > rsi_overbought), 'signal'] = -1
 
+    return data
+
+def bollinger_band_strategy(data, period=20, std_dev=2):
+    """
+    Generate signals based on Bollinger Bands.
+    Buy when price crosses below the lower band.
+    Sell when price crosses above the upper band.
+    :param data: DataFrame with 'Close' prices.
+    :param period: Period for Bollinger Bands.
+    :param std_dev: Standard deviation for bands.
+    :return: DataFrame with 'Signal' column.
+    """
+    bb = calculate_bollinger_bands(data['Close'], period, std_dev)
+    data = data.join(bb)
+    data['Signal'] = 0
+    data.loc[data['Close'] < data['Lower Band'], 'Signal'] = 1  # Buy
+    data.loc[data['Close'] > data['Upper Band'], 'Signal'] = -1  # Sell
+    return data
+
+def macd_strategy(data, short_period=12, long_period=26, signal_period=9):
+    """
+    Generate signals based on MACD crossover.
+    Buy when MACD crosses above Signal Line.
+    Sell when MACD crosses below Signal Line.
+    :param data: DataFrame with 'Close' prices.
+    :param short_period: Short period for MACD.
+    :param long_period: Long period for MACD.
+    :param signal_period: Signal line period.
+    :return: DataFrame with 'Signal' column.
+    """
+    macd = calculate_macd(data['Close'], short_period, long_period, signal_period)
+    data = data.join(macd)
+    data['Signal'] = 0
+    data.loc[data['MACD'] > data['Signal Line'], 'Signal'] = 1  # Buy
+    data.loc[data['MACD'] < data['Signal Line'], 'Signal'] = -1  # Sell
+    return data
+
+def atr_breakout_strategy(data, period=14, breakout_multiplier=2):
+    atr = calculate_atr(data, period)
+    data['Upper Breakout'] = data['Close'] + (breakout_multiplier * atr)
+    data['Lower Breakout'] = data['Close'] - (breakout_multiplier * atr)
+    data['Signal'] = 0
+    data.loc[data['Close'] > data['Upper Breakout'], 'Signal'] = 1  # Buy
+    data.loc[data['Close'] < data['Lower Breakout'], 'Signal'] = -1  # Sell
     return data

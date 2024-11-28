@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from src.indicators import calculate_ema, calculate_rsi
+from src.indicators import *
 
 def test_calculate_ema():
     """Test the Exponential Moving Average calculation."""
@@ -17,3 +17,16 @@ def test_calculate_rsi():
     rsi = calculate_rsi(data, period=5)
     assert len(rsi) == len(data), "RSI should return a Series of the same length as input data."
     assert rsi.iloc[-1] < 30, "RSI should indicate oversold conditions at the last index."
+
+def test_calculate_bollinger_bands():
+    data = pd.Series([100, 102, 104, 103, 101])
+    bands = calculate_bollinger_bands(data, period=3)
+    assert 'Upper Band' in bands.columns
+    assert 'Lower Band' in bands.columns
+
+def test_calculate_macd():
+    data = pd.Series([100, 102, 104, 103, 101])
+    macd = calculate_macd(data)
+    assert 'MACD' in macd.columns
+    assert 'Signal Line' in macd.columns
+

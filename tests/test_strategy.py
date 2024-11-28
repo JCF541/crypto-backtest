@@ -1,5 +1,5 @@
 import pytest
-from src.strategy import generate_signals
+from src.strategy import *
 import pandas as pd
 
 def test_generate_signals():
@@ -9,3 +9,13 @@ def test_generate_signals():
     })
     signals = generate_signals(data, short_ema_period=3, long_ema_period=5, rsi_period=2, rsi_overbought=80, rsi_oversold=20)
     assert 'signal' in signals.columns, "Signal column should be present in DataFrame."
+
+def test_bollinger_band_strategy():
+    data = pd.DataFrame({'Close': [100, 102, 104, 103, 101]})
+    results = bollinger_band_strategy(data)
+    assert 'Signal' in results.columns
+
+def test_macd_strategy():
+    data = pd.DataFrame({'Close': [100, 102, 104, 103, 101]})
+    results = macd_strategy(data)
+    assert 'Signal' in results.columns
