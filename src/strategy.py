@@ -72,3 +72,13 @@ def atr_breakout_strategy(data, period=14, breakout_multiplier=2):
     data.loc[data['Close'] > data['Upper Breakout'], 'Signal'] = 1  # Buy
     data.loc[data['Close'] < data['Lower Breakout'], 'Signal'] = -1  # Sell
     return data
+
+def apply_strategy(data, strategy_function):
+    """
+    Apply a trading strategy to the given data.
+
+    :param data: DataFrame with historical data.
+    :param strategy_function: The strategy function to apply.
+    :return: DataFrame with signals.
+    """
+    return strategy_function(data)

@@ -2,7 +2,7 @@
 
 import pandas as pd
 from strategy import apply_strategy
-from indicators import calculate_indicators
+from indicators import calculate_indicators  # Ensure this import is correct
 
 def backtest_strategy(data, strategy_function, initial_balance=1000, trading_fee=0.001, position_size=0.1):
     """

@@ -69,5 +69,21 @@ def calculate_atr(data, period=14):
     atr = true_range.rolling(window=period).mean()
     return atr
 
+def calculate_indicators(data):
+    """
+    Apply technical indicators to the given data.
+
+    :param data: DataFrame containing OHLCV data.
+    :return: DataFrame with indicators added.
+    """
+    from indicators import calculate_ema, calculate_rsi, calculate_atr
+
+    # Example indicators (adjust as needed)
+    data['ema_12'] = calculate_ema(data['close'], period=12)
+    data['ema_26'] = calculate_ema(data['close'], period=26)
+    data['rsi_14'] = calculate_rsi(data['close'], period=14)
+    data['atr_14'] = calculate_atr(data, period=14)
+
+    return data
 
 
