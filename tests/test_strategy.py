@@ -1,6 +1,9 @@
-import pytest
-from strategy import *
-import pandas as pd
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+
+import unittest
+from strategy import macd_strategy
 
 def test_generate_signals():
     """Test trading signal generation."""

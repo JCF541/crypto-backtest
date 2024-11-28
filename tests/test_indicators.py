@@ -1,6 +1,9 @@
-import pytest
-import pandas as pd
-from indicators import *
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+
+import unittest
+from indicators import calculate_ema, calculate_rsi, calculate_atr
 
 def test_calculate_ema():
     """Test the Exponential Moving Average calculation."""
